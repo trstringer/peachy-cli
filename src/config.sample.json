@@ -1,0 +1,34 @@
+{
+  "connections": [
+    {
+      "name": "mssql-sample",
+      "dataSourceType": "mssql",
+      "server": "...",
+      "database": "...",
+      "username": "...",
+      "password": "..."
+    },
+    {
+      "name": "documentdb-sample",
+      "dataSourceType": "documentdb",
+      "endpoint": "...",
+      "key": "...",
+      "database": "..."
+    },
+    {
+      "name": "mongodb-sample",
+      "dataSourceType": "mongodb",
+      "host": "...",
+      "port": 27017,
+      "database": "..."
+    },
+    {
+      "name": "mysql-sample",
+      "dataSourceType": "mysql",
+      "server": "...",
+      "database": "...",
+      "username": "...",
+      "password": "..."
+    }
+  ]
+}
