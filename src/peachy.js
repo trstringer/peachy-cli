@@ -11,9 +11,31 @@ program
   .option('-t, --test', 'test connection')
   .option('-c, --connection <connection-name>', 'connection name (from ~/.peachy)')
   .option('-o, --collection <collection-name>', 'collection to perform the action on')
-  .option('-a, --action', 'action to take on data source')
-  .option('-d, --document <document>', 'the document to insert, update, or delete from a collection')
+  .option('-f, --filter <filter-json>', 'filter for searching and updating documents')
+  .option('-u, --update <update-json>', 'document update options')
+  .option('-a, --action <action-name>', 'action to take on data source')
+  .option('-d, --document <document-json>', 'the document to insert, update, or delete from a collection')
   .option('-q, --query <query>', 'query text applicable for certain data sources')
+  .on('--help', () => {
+    console.log('  Actions:');
+    console.log('');
+    console.log('    queryCollection (mongodb, documentdb)');
+    console.log('      (all)        --collection  target collection');
+    console.log('      (documentdb) --query       query to run');
+    console.log('      (mongodb)    --filter      filter to search (optional)');
+    console.log('    createDocument (mongodb, documentdb)');
+    console.log('      (all)        --collection  target collection');
+    console.log('      (all)        --document    document to insert');
+    console.log('    updateDocuments (mongodb)');
+    console.log('      (mongodb)    --collection  target collection');
+    console.log('      (mongodb)    --filter      filter to update (optional)');
+    console.log('      (mongodb)    --update      update options to apply to doc');
+    console.log('    deleteDocuments (mongodb)');
+    console.log('      (mongodb)    --collection  target collection');
+    console.log('      (mongodb)    --filter      filter to delete (optional)');
+    console.log('');
+    console.log('    Note: RDMBSes take the query param text to run');
+  })
   .parse(process.argv);
 
 const displayInformation = 
@@ -55,6 +77,7 @@ function handleConnection(connection) {
               displayError('you must specify the collection and query');
               process.exit(1);
             }
+
             action.operation = program.action;
             action.collection = program.collection;
             action.query = program.query;
@@ -62,6 +85,16 @@ function handleConnection(connection) {
           case 'createDocument':
             if (!program.collection || !program.document) {
               displayError('you must specify the collection and the document to insert');
+              process.exit(1);
+            }
+
+            action.operation = program.action;
+            action.collection = program.collection;
+            try {
+              action.document = JSON.parse(program.document);
+            }
+            catch (ex) {
+              displayError(ex.message);
               process.exit(1);
             }
             break;
