@@ -46,6 +46,23 @@ module.exports = (() => {
   }
 
   function getConnection(name, callback) {
+    getAllConnections((err, connections) => {
+      if (err) {
+        callback(err);
+      }
+      else {
+        if (connections && connections.length > 0) {
+          callback(null, connections.filter(
+            (connection) => connection.name === name)[0]);
+        }
+        else {
+          callback();
+        }
+      }
+    });
+  }
+
+  function getAllConnections(callback) {
     copyBaseConfigIfNotExists((err) => {
       if (err) {
         callback(err);
@@ -59,11 +76,8 @@ module.exports = (() => {
             try {
               const dataObj = JSON.parse(data);
 
-              const filteredConnections = 
-                dataObj.connections.filter((connection) => connection.name === name);
-
-              if (filteredConnections && filteredConnections.length > 0) {
-                callback(null, filteredConnections[0]);
+              if (dataObj.connections) {
+                callback(null, dataObj.connections);
               }
               else {
                 callback();
@@ -80,6 +94,7 @@ module.exports = (() => {
   
   return {
     getConnection,
+    getAllConnections,
     getDataSourceTypes: peacherine.getDataSourceTypes
   };
 })();
