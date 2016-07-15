@@ -4,11 +4,11 @@
 
 ### Currently supported data sources
 
- - MySQL
- - MongoDB
- - SQL Server
- - SQL Azure
- - DocumentDB
+ - [MySQL](#mysql-sql-server-and-sql-azure)
+ - [MongoDB](#mongodb)
+ - [SQL Server](#mysql-sql-server-and-sql-azure)
+ - [SQL Azure](#mysql-sql-server-and-sql-azure)
+ - [DocumentDB](#documentdb)
 
 ## Future development
 
@@ -93,13 +93,13 @@ $ peachy -s
 $peachy -c <connection-name> -t
 ```
 
-### MySQL, SQL Server, and SQL Azure
+# MySQL, SQL Server, and SQL Azure
 
 ```
 $ peachy -c <connection-name> -q "select * from information_schema.tables"
 ```
 
-### MongoDB
+# MongoDB
 
 **query all documents** in the collection
 
