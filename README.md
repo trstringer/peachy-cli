@@ -67,13 +67,13 @@ Output:
 $peachy -c <connection-name> -t
 ```
 
-*Run a query against **MySQL**, **SQL Server**, or **SQL Azure***
+### MySQL, SQL Server, and SQL Azure
 
 ```
 $ peachy -c <connection-name> -q "select * from information_schema.tables"
 ```
 
-*Modify and query data in **MongoDB***
+### MongoDB
 
 **query all documents** in the collection
 
@@ -105,7 +105,7 @@ $ peachy -c <connection-name> -i <collection-name> -o updateDocuments -f <json-f
 $ peachy -c <connection-name> -i <collection-name> -o deleteDocuments -f <json-filter>
 ```
 
-*Modify and query data in **DocumentDB***
+# DocumentDB
 
 **query documents**
 
