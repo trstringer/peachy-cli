@@ -17,7 +17,7 @@ The idea behind this tool is to add all of the main and popular data sources.  T
 ## Installation
 
 ```
-$ npm install -g peachy
+$ npm install -g peachy-cli
 ```
 
 ## Usage
