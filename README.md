@@ -2,6 +2,10 @@
 
 *The cross-platform and cross-data-source query CLI*
 
+## Future development
+
+The idea behind this tool is to add all of the main and popular data sources.  This CLI is basically just an interactive shim over the [peacherine module](https://github.com/tstringer/peacherine).  For instance, development work will start in order to add Postgres as an available data source to query
+
 ## Installation
 
 ```
@@ -61,7 +65,21 @@ Output:
 
 ## Examples
 
-*Test a connection to any data source*
+### List all available connections (or create a new config file in ~/.peachy)
+
+```
+$peachy -l
+```
+
+> :bulb: If there is not ~/.peachy configuration file then running this will create a base file.  This is the recommended workflow so you don't have to manually create the JSON file, and you can just modify it manually after-the-fact
+
+### List available data sources
+
+```
+$ peachy -s
+```
+
+### Test a connection to any data source
 
 ```
 $peachy -c <connection-name> -t
