@@ -10,14 +10,14 @@ program
   .option('-l, --list', 'list available connections in config (~/.peachy)')
   .option('-t, --test', 'test connection')
   .option('-c, --connection <connection-name>', 'connection name (from ~/.peachy)')
-  .option('-o, --collection <collection-name>', 'collection to perform the action on')
+  .option('-i, --collection <collection-name>', 'collection to perform the action on')
   .option('-f, --filter <filter-json>', 'filter for searching and updating documents')
   .option('-u, --update <update-json>', 'document update options')
-  .option('-a, --action <action-name>', 'action to take on data source')
+  .option('-o, --operation <operation-name>', 'action to take on data source')
   .option('-d, --document <document-json>', 'the document to insert, update, or delete from a collection')
   .option('-q, --query <query>', 'query text applicable for certain data sources')
   .on('--help', () => {
-    console.log('  Actions:');
+    console.log('  Operations:');
     console.log('');
     console.log('    queryCollection (mongodb, documentdb)');
     console.log('      (all)        --collection  target collection');
@@ -35,6 +35,11 @@ program
     console.log('      (mongodb)    --filter      filter to delete (optional)');
     console.log('');
     console.log('    Note: RDMBSes take the query param text to run');
+    console.log('');
+    console.log('    Config file setup: running any command will create the ');
+    console.log('      base config file. I.e. run "peachy -l" which will list ');
+    console.log('      all of the connections in configuration, and if the config ');
+    console.log('      file does not exist it will create it at ~/.peachy');
   })
   .parse(process.argv);
 
@@ -68,17 +73,17 @@ function handleConnection(connection) {
         action.collection = program.collection;
         action.operation = 'queryCollection';
       }
-      else if (program.action) {
+      else if (program.operation) {
         // the user has specified a particular action so we need 
         // to take the appropriate response to carry out their wish
-        switch (program.action) {
+        switch (program.operation) {
           case 'queryCollection':
             if (!program.collection || !program.query) {
               displayError('you must specify the collection and query');
               process.exit(1);
             }
 
-            action.operation = program.action;
+            action.operation = program.operation;
             action.collection = program.collection;
             action.query = program.query;
             break;
@@ -88,7 +93,7 @@ function handleConnection(connection) {
               process.exit(1);
             }
 
-            action.operation = program.action;
+            action.operation = program.operation;
             action.collection = program.collection;
             try {
               action.document = JSON.parse(program.document);
@@ -99,17 +104,105 @@ function handleConnection(connection) {
             }
             break;
           default:
-            displayError(`unknown action ${program.action} for ${connection.dataSourceType}`);
+            displayError(`unknown action ${program.operation} for ${connection.dataSourceType}`);
             process.exit(1);
             break;
         }
       }
       break;
     case 'mongodb':
-      displayWarning('mongodb not implemented yet');
+      if (!program.operation) {
+        // if no action is specified, default to query collection
+        //
+        // if the user doesn't have a filter then that is ok it will 
+        // just query the entire collection
+        if (!program.collection) {
+          displayError('you must specify the collection to query');
+          process.exit(1);
+        }
+        action.collection = program.collection;
+        action.operation = 'queryCollection';
+        try {
+          action.filter = program.filter ? JSON.parse(program.filter) : {};
+        }
+        catch (ex) {
+          displayError(ex.message);
+          process.exit(1);
+        }
+      }
+      else {
+        switch (program.operation) {
+          case 'queryCollection':
+            if (!program.collection) {
+              displayError('you must specify the collection to query');
+              process.exit(1);
+            }
+            action.collection = program.collection;
+            action.operation = program.operation;
+            try {
+              action.filter = program.filter ? JSON.parse(program.filter) : {};
+            }
+            catch (ex) {
+              displayError(ex.message);
+              process.exit(1);
+            }
+            break;
+          case 'createDocument':
+            if (!program.collection || !program.document) {
+              displayError('you must specify the collection and document to insert');
+              process.exit(1);
+            }
+            action.operation = program.operation;
+            action.collection = program.collection;
+            try {
+              action.document = JSON.parse(program.document);
+            }
+            catch (ex) {
+              displayError(ex.message);
+              process.exit(1);
+            }
+            break;
+          case 'updateDocuments':
+            if (!program.collection || !program.update || !program.filter) {
+              displayError('you must specify the collection and the update options and filter to update');
+              process.exit(1);
+            }
+            action.operation = program.operation;
+            action.collection = program.collection;
+            try {
+              action.filter = JSON.parse(program.filter);
+              action.updateOptions = JSON.parse(program.update);
+            }
+            catch (ex) {
+              displayError(ex.message);
+              process.exit(1);
+            }
+            break;
+          case 'deleteDocuments':
+            if (!program.collection || !program.filter) {
+              displayError('you must specify the collection and the filter to delete');
+              process.exit(1);
+            }
+            action.operation = program.operation;
+            action.collection = program.collection;
+            try {
+              action.filter = JSON.parse(program.filter);
+            }
+            catch (ex) {
+              displayError(ex.message);
+              process.exit(1);
+            }
+            break;
+        }
+      }
       break;
-    case 'mssql':
-      displayWarning('mssql not implemented yet');
+    case 'mysql':
+      if (!program.query) {
+        displayError('you must specify a query to run');
+        process.exit(1);
+      }
+
+      action.query = program.query;
       break;
     default:
       displayError(`unknown data source type: ${connection.dataSourceType}`);
@@ -124,10 +217,17 @@ function handleConnection(connection) {
       displayError(err.message);
       process.exit(1);
     }
-    else {
-      displayResult(result);
-      process.exit(0);
+    else if (result) {
+      if (Array.isArray(result)) {
+          if (result.length > 0) {
+            displayResult(result);
+          }
+      }
+      else {
+        displayResult(result);
+      }
     }
+    process.exit(0);
   });
 }
 
