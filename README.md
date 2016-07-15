@@ -61,37 +61,60 @@ Output:
 
 ## Examples
 
-*Run a query against MySQL, SQL Server, or SQL Azure*
+*Test a connection to any data source*
+
+```
+$peachy -c <connection-name> -t
+```
+
+*Run a query against **MySQL**, **SQL Server**, or **SQL Azure***
 
 ```
 $ peachy -c <connection-name> -q "select * from information_schema.tables"
 ```
 
-*Modify and query data in MongoDB*
+*Modify and query data in **MongoDB***
+
+**query all documents** in the collection
 
 ```
-# query all documents in the collection
 $ peachy -c <connection-name> -i <collection-name>
+```
 
-# query based off of a filter
+**query with a filter**
+
+```
 $ peachy -c <connection-name> -i <collection-name> -f <json-filter>
+```
 
-# insert a document in the collection
+**insert a document** in the collection
+
+```
 $ peachy -c <connection-name> -i <collection-name> -o createDocument -d <json-document>
+```
 
-# update documents (or a document) in the collection
+**update documents** (or a document) in the collection
+
+```
 $ peachy -c <connection-name> -i <collection-name> -o updateDocuments -f <json-filter> -u <json-update-obj>
+```
 
-# delete documents (or a document) in the collection
+**delete documents** (or a document) in the collection
+
+```
 $ peachy -c <connection-name> -i <collection-name> -o deleteDocuments -f <json-filter>
 ```
 
-*Modify and query data in DocumentDB*
+*Modify and query data in **DocumentDB***
+
+**query documents**
 
 ```
-# query a collection
 $ peachy -c <connection-name> -i <collection-name> -q "select * from c"
+```
 
-# insert a document in the collection
+**insert a document** in the collection
+
+```
 $ peachy -c <connection-name> -i <collection-name> -o createDocument -d <json-document>
 ```
