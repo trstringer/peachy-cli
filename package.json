@@ -1,5 +1,5 @@
 {
-  "name": "peacherine-cli",
+  "name": "peachy",
   "version": "0.1.0",
   "description": "CLI for cross-platform and cross-datasource querying",
   "main": "src/peachy.js",
