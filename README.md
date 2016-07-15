@@ -1,6 +1,14 @@
-# Peachy
+# Peachy :peach:
 
 *The cross-platform and cross-data-source query CLI*
+
+### Currently supported data sources
+
+ - MySQL
+ - MongoDB
+ - SQL Server
+ - SQL Azure
+ - DocumentDB
 
 ## Future development
 
