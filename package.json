@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["mysql", "mssql", "sql", "nosql", "mongodb", "documentdb", "query", "dba"],
   "author": "Thomas Stringer",
   "license": "MIT",
   "dependencies": {
