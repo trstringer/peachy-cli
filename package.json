@@ -1,6 +1,6 @@
 {
   "name": "peachy-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CLI for cross-platform and cross-datasource querying",
   "main": "src/peachy.js",
   "bin": {
@@ -9,7 +9,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["mysql", "mssql", "sql", "nosql", "mongodb", "documentdb", "query", "dba"],
+  "keywords": [
+    "mysql",
+    "mssql",
+    "sql",
+    "nosql",
+    "mongodb",
+    "documentdb",
+    "query",
+    "dba"
+  ],
   "author": "Thomas Stringer",
   "license": "MIT",
   "dependencies": {
