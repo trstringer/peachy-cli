@@ -20,7 +20,9 @@
       "dataSourceType": "mongodb",
       "host": "...",
       "port": 27017,
-      "database": "..."
+      "database": "...",
+      "username": "...optional...",
+      "password": "...optional..."
     },
     {
       "name": "mysql-sample",
