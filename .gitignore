@@ -3,3 +3,4 @@ typings/
 .vscode/
 *.tgz
 jsconfig.json
+npm-debug.log
