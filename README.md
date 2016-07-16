@@ -76,7 +76,7 @@ Output:
 ### List all available connections (or create a new config file in ~/.peachy)
 
 ```
-$peachy -l
+$ peachy -l
 ```
 
 > :bulb: If there is not ~/.peachy configuration file then running this will create a base file.  This is the recommended workflow so you don't have to manually create the JSON file, and you can just modify it manually after-the-fact
@@ -90,7 +90,7 @@ $ peachy -s
 ### Test a connection to any data source
 
 ```
-$peachy -c <connection-name> -t
+$ peachy -c <connection-name> -t
 ```
 
 # MySQL, SQL Server, and SQL Azure
