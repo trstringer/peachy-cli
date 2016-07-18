@@ -1,11 +1,11 @@
 const program = require('commander');
-const package = require('../package');
+const packageConfig = require('../package');
 const connectionManager = require('./connection-manager');
 const chalk = require('chalk');
 const peacherine = require('peacherine');
 
 program
-  .version(package.version)
+  .version(packageConfig.version)
   .option('-s, --datasources', 'list available data source types')
   .option('-l, --list', 'list available connections in config (~/.peachy)')
   .option('-t, --test', 'test connection')

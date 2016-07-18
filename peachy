@@ -1,2 +1,2 @@
-#!/usr/bin/env node
+#!/usr/bin/node --use_strict
 require('./src/peachy.js')
