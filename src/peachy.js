@@ -248,7 +248,8 @@ function testConnection(connection) {
 if (program.datasources) {
   const dataSourceTypes = connectionManager.getDataSourceTypes();
 
-  for (let i = 0; i < dataSourceTypes.length; i++) {
+  var i;
+  for (i = 0; i < dataSourceTypes.length; i++) {
     displayInformation(dataSourceTypes[i]);
   }
 }
